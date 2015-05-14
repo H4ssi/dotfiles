@@ -23,11 +23,13 @@ for t in $(find . -mindepth 1 -maxdepth 1); do
 		"install") ;;
 		*)
                         cd ..
-			if [[ -e $t ]]; then
-				echo skipped \"$t\"
+			if [[ -L $t && $(readlink "$t") == "$dir/$t" ]]; then
+				echo "          \"$t\""
+			elif [[ -e $t ]]; then
+				echo "skipped   \"$t\""
 			else
 				ln -s "$dir/$t" .
-				echo installed \"$t\"
+				echo "installed \"$t\""
 			fi
 			cd "$dir"
 			;;
