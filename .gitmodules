@@ -1,3 +1,9 @@
 [submodule ".oh-my-zsh"]
 	path = .oh-my-zsh
 	url = git://github.com/robbyrussell/oh-my-zsh.git
+[submodule ".live-packs/florians-pack"]
+	path = .live-packs/florians-pack
+	url = https://github.com/H4ssi/florians-pack.git
+[submodule ".emacs.d"]
+	path = .emacs.d
+	url = https://github.com/overtone/emacs-live.git
