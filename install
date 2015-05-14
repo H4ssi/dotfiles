@@ -8,14 +8,14 @@ if [[ ! -f $0 ]]; then
 	exit 1
 fi
 
-install=$(dirname $0)
+install="$(dirname "$0")"
 
 pushd "$install" > /dev/null
 
-dir=$(basename $(pwd -L))
+dir="$(basename "$(pwd -L)")"
 
 for t in $(find . -mindepth 1 -maxdepth 1); do
-	t=$(basename $t)
+	t="$(basename "$t")"
 	case "$t" in
 		".git") ;;
 		".gitignore") ;;
