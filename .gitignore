@@ -1,0 +1,2 @@
+/.lein/*
+!/.lein/profiles.clj
