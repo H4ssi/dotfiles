@@ -1,0 +1,36 @@
+#!/bin/bash
+
+set -e
+set -u
+
+if [[ ! -f $0 ]]; then
+	echo "call on real install file!"
+	exit 1
+fi
+
+install=$(dirname $0)
+
+pushd "$install" > /dev/null
+
+dir=$(basename $(pwd -L))
+
+for t in $(find . -mindepth 1 -maxdepth 1); do
+	t=$(basename $t)
+	case "$t" in
+		".git") ;;
+		".gitignore") ;;
+		"install") ;;
+		*)
+                        cd ..
+			if [[ -e $t ]]; then
+				echo skipped \"$t\"
+			else
+				ln -s "$dir/$t" .
+				echo installed \"$t\"
+			fi
+			cd "$dir"
+			;;
+	esac
+done
+
+popd > /dev/null
