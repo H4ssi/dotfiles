@@ -19,6 +19,7 @@ for t in $(find . -mindepth 1 -maxdepth 1); do
 	case "$t" in
 		".git") ;;
 		".gitignore") ;;
+		".gitmodules") ;;
 		"install") ;;
 		*)
                         cd ..
