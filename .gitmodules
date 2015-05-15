@@ -7,3 +7,6 @@
 [submodule ".emacs.d"]
 	path = .emacs.d
 	url = https://github.com/overtone/emacs-live.git
+[submodule ".vim_runtime"]
+	path = .vim_runtime
+	url = git://github.com/amix/vimrc.git
