@@ -20,6 +20,8 @@ for t in $(find . -mindepth 1 -maxdepth 1); do
 		".git") ;;
 		".gitignore") ;;
 		".gitmodules") ;;
+		"LICENSE") ;;
+		"README.md") ;;
 		"install") ;;
 		*)
                         cd ..
