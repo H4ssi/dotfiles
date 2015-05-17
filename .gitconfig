@@ -1,3 +1,16 @@
 [user]
 	name = Florian Hassanen
 	email = florian.hassanen@gmail.com
+[merge]
+	tool = p4merge
+[diff]
+	tool = p4merge
+[push]
+	default = simple
+[core]
+	excludesfile = ~/.global_gitignore
+[sendemail]
+	smtpencryption = tls
+	smtpserver = smtp.gmail.com
+	smtpuser = florian.hassanen@gmail.com
+	smtpserverport = 587
