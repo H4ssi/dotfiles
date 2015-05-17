@@ -1,1 +1,2 @@
-export PATH="${HOME}/bin:${PATH}"
+#!/bin/sh
+[ -d "${HOME}/bin" ] && export PATH="${HOME}/bin:${PATH}"
