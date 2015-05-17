@@ -1,1 +1,1 @@
-.zshenv
+export PATH="${HOME}/bin:${PATH}"
