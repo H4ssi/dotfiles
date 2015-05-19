@@ -1,1 +1,2 @@
-{:user {:plugins [[cider/cider-nrepl "0.8.1"]]}}
+{:user {:plugins [[cider/cider-nrepl "0.9.0-SNAPSHOT"]
+                  [refactor-nrepl "1.1.0-SNAPSHOT"]]}}
