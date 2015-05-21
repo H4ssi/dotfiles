@@ -37,7 +37,7 @@
                            evil-smartparens
                            clojure-mode
                            cider
-                           ac-cider
+                           company
                            clj-refactor
                            rainbow-delimiters
                            smart-mode-line))
@@ -48,6 +48,10 @@
 (setq magit-last-seen-setup-instructions "1.4.0")
 (require 'smartparens-config)
 (smartparens-global-mode t)
+
+; company
+(add-hook 'after-init-hook 'global-company-mode)
+
 (require 'clj-refactor)
 (add-hook 'clojure-mode-hook (lambda ()
                                (clj-refactor-mode 1)
