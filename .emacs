@@ -50,6 +50,10 @@
 (require 'smartparens-config)
 (smartparens-global-mode t)
 
+; cider
+(add-hook 'cider-mode-hook #'eldoc-mode)
+(setq nrepl-hide-special-buffers t)
+
 ; company
 (add-hook 'after-init-hook 'global-company-mode)
 
