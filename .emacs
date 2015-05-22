@@ -47,8 +47,17 @@
 (require 'helm-config)
 (helm-mode t)
 (setq magit-last-seen-setup-instructions "1.4.0")
+
+; smartparens
 (require 'smartparens-config)
 (smartparens-global-mode t)
+(define-key smartparens-mode-map (kbd "C-M-)") 'sp-forward-slurp-sexp)
+(define-key smartparens-mode-map (kbd "C-M-0") 'sp-forward-barf-sexp)
+(define-key smartparens-mode-map (kbd "C-M-(") 'sp-backward-slurp-sexp)
+(define-key smartparens-mode-map (kbd "C-M-9") 'sp-backward-barf-sexp)
+
+; evil-smartparens
+(add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
 
 ; cider
 (add-hook 'cider-mode-hook #'eldoc-mode)
