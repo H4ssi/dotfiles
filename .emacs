@@ -38,6 +38,7 @@
                            clojure-mode
                            cider
                            company
+                           cider-eval-sexp-fu
                            clj-refactor
                            rainbow-delimiters
                            smart-mode-line))
@@ -51,6 +52,9 @@
 
 ; company
 (add-hook 'after-init-hook 'global-company-mode)
+
+; cider-eval-sexp-fu
+(require 'cider-eval-sexp-fu)
 
 (require 'clj-refactor)
 (add-hook 'clojure-mode-hook (lambda ()
