@@ -60,9 +60,12 @@
 ; cider-eval-sexp-fu
 (require 'cider-eval-sexp-fu)
 
+; clj-refactor
 (require 'clj-refactor)
 (add-hook 'clojure-mode-hook (lambda ()
                                (clj-refactor-mode 1)
                                (cljr-add-keybindings-with-prefix "C-c C-a")))
+(yas/global-mode 1)
+
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 (sml/setup)
