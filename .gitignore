@@ -1,2 +1,4 @@
 /.lein/*
 !/.lein/profiles.clj
+/.gradle/*
+!/.gradle/gradle.properties
