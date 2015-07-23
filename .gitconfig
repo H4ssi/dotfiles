@@ -14,3 +14,5 @@
 	smtpserver = smtp.gmail.com
 	smtpuser = florian.hassanen@gmail.com
 	smtpserverport = 587
+[alias]
+	diffc = diff --word-diff=color
