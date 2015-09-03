@@ -1,0 +1,3 @@
+[submodule "sources_non_forked/rainbow_parentheses.vim"]
+	path = sources_non_forked/rainbow_parentheses.vim
+	url = git@github.com:kien/rainbow_parentheses.vim.git
