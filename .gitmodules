@@ -1,3 +1,4 @@
 [submodule "sources_non_forked/rainbow_parentheses.vim"]
 	path = sources_non_forked/rainbow_parentheses.vim
-	url = git@github.com:kien/rainbow_parentheses.vim.git
+	url = git@github.com:junegunn/rainbow_parentheses.vim.git
+	branch = master
