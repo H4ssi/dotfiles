@@ -1,1 +1,3 @@
-au VimEnter * RainbowParentheses
+au BufEnter * :syntax sync fromstart
+
+au BufEnter * RainbowParentheses
