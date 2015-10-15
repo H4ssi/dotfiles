@@ -38,7 +38,8 @@ set $right semicolon
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+#bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec termite
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -174,21 +175,9 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
     status_command i3status    
-colors {
-    separator #586e75
-    background #002b36
-    statusline #aea79f
-    focused_workspace #586e75 #586e75 #ffffff
-    active_workspace #073642 #073642 #ffffff
-    inactive_workspace #002b36 #002b36 #aea79f
-    urgent_workspace #77216f #77216f #ffffff
-}
+    # $i3-theme-bar
 }
 exec --no-startup-id xsetroot -solid "#333333"
 exec --no-startup-id dex -ae XFCE
 
-# class                 border  backgr. text    indicator
-client.focused #586e75 #586e75 #fdf6e3 #268bd2
-client.focused_inactive #073642 #073642 #93a1a1 #002b36
-client.unfocused #002b36 #002b36 #586e75 #002b36
-client.urgent #dc322f #dc322f #fdf6e3 #dc322f
+# $i3-theme-window
