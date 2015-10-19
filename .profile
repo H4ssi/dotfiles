@@ -14,3 +14,5 @@ setup_gem_path() {
 
 setup_gem_path
 unset -f setup_gem_path
+
+export TERMINAL=termite
