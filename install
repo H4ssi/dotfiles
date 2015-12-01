@@ -4,8 +4,8 @@ set -e
 set -u
 
 if [[ ! -f $0 ]]; then
-	echo "call on real install file!"
-	exit 1
+    echo "call on real install file!"
+    exit 1
 fi
 
 install="$(dirname "$0")"
@@ -14,28 +14,40 @@ pushd "$install" > /dev/null
 
 dir="$(basename "$(pwd -L)")"
 
-for t in $(find . -mindepth 1 -maxdepth 1); do
-	t="$(basename "$t")"
-	case "$t" in
-		".git") ;;
-		".gitignore") ;;
-		".gitmodules") ;;
-		"LICENSE") ;;
-		"README.md") ;;
-		"install") ;;
-		*)
-                        cd ..
-			if [[ -L $t && $(readlink "$t") == "$dir/$t" ]]; then
-				echo "          \"$t\""
-			elif [[ -e $t ]]; then
-				echo "skipped   \"$t\""
-			else
-				ln -s "$dir/$t" .
-				echo "installed \"$t\""
-			fi
-			cd "$dir"
-			;;
-	esac
-done
+install_links () {
+    # $1 = path within .dotfiles
+    # $2 = path within home dir
+    # $3 = ..\..\... back to home dir
+    for t in $(find "$1" -mindepth 1 -maxdepth 1); do
+        t="$(basename "$t")"
+        case "$t" in
+            .git) ;;
+            .gitignore) ;;
+            .gitmodules) ;;
+            LICENSE) ;;
+            README.md) ;;
+            install) ;;
+            *.NO_INSTALL)
+                install_links "$1/$t" "$2/${t%.NO_INSTALL}" "$3/.."
+                ;;
+            *)
+                cd "../$2"
+                file="$(realpath -s --relative-to "$3" "$t")"
+                target="$(realpath -s --relative-to . "$3/$dir/$1/$t")"
+                if [[ -L $t && $(readlink "$t") == $target ]]; then
+                    echo "          \"$file\""
+                elif [[ -e $t ]]; then
+                    echo "skipped   \"$file\""
+                else
+                    ln -s "$target" .
+                    echo "installed \"$file\""
+                fi
+                cd "$3/$dir"
+                ;;
+        esac
+    done
+}
+
+install_links . . .
 
 popd > /dev/null

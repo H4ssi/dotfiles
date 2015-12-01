@@ -1,0 +1,4 @@
+[options]
+font = Source Code Pro 10
+cursor_blink = on
+cursor_shape = underline
