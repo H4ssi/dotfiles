@@ -4,5 +4,5 @@
 	branch = master
 [submodule ".vim_runtime"]
 	path = .vim_runtime
-	url = ..
+	url = .
 	branch = amix-vimrc
