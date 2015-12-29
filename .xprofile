@@ -1,1 +1,6 @@
-.profile
+#!/bin/sh
+
+[ -f "~/.profile" ] && source "~/.profile"
+
+xset -b
+
