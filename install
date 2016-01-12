@@ -12,13 +12,13 @@ install="$(dirname "$0")"
 
 pushd "$install" > /dev/null
 
-dir="$(basename "$(pwd -L)")"
+dotdir="$(basename "$(pwd -L)")"
 
 install_links () {
-    # $1 = path within .dotfiles
-    # $2 = path within home dir
-    # $3 = ..\..\... back to home dir
-    for t in $(find "$1" -mindepth 1 -maxdepth 1); do
+    local src=${1}
+    local tgt=${2}
+    local back_to_home=${3}
+    for t in $(find "$src" -mindepth 1 -maxdepth 1); do
         t="$(basename "$t")"
         case "$t" in
             .git) ;;
@@ -28,12 +28,12 @@ install_links () {
             README.md) ;;
             install) ;;
             *.NO_INSTALL)
-                install_links "$1/$t" "$2/${t%.NO_INSTALL}" "$3/.."
+                install_links "$src/$t" "$tgt/${t%.NO_INSTALL}" "$back_to_home/.."
                 ;;
             *)
-                cd "../$2"
-                file="$(realpath -s --relative-to "$3" "$t")"
-                target="$(realpath -s --relative-to . "$3/$dir/$1/$t")"
+                cd "../$tgt" # back to home, into correspondig dir
+                file="$(realpath -s --relative-to "$back_to_home" "$t")"
+                target="$(realpath -s --relative-to . "$back_to_home/$dotdir/$src/$t")"
                 if [[ -L $t && $(readlink "$t") == $target ]]; then
                     echo "          \"$file\""
                 elif [[ -e $t ]]; then
@@ -42,7 +42,7 @@ install_links () {
                     ln -s "$target" .
                     echo "installed \"$file\""
                 fi
-                cd "$3/$dir"
+                cd "$back_to_home/$dotdir"
                 ;;
         esac
     done
