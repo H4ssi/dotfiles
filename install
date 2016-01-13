@@ -18,8 +18,8 @@ install_links () {
     local src=${1}
     local tgt=${2}
     local back_to_home=${3}
-    for t in $(find "$src" -mindepth 1 -maxdepth 1); do
-        t="$(basename "$t")"
+    for path in $(find "$src" -mindepth 1 -maxdepth 1); do
+        local t="$(basename "$path")"
         case "$t" in
             .git) ;;
             .gitignore) ;;
@@ -28,12 +28,20 @@ install_links () {
             README.md) ;;
             install) ;;
             *.NO_INSTALL)
-                install_links "$src/$t" "$tgt/${t%.NO_INSTALL}" "$back_to_home/.."
+                local t_real=${t%.NO_INSTALL}
+                local t_path="../$tgt/$t_real" # from dotdir to home to target path
+                if [[ ! -e $t_path ]]; then
+                    mkdir "$t_path"
+                elif [[ ! -d $t_path || -L $t_path ]]; then
+                    echo "error     \"$tgt/$t_real\" not a directory"
+                else
+                    install_links "$src/$t" "$tgt/$t_real" "$back_to_home/.."
+                fi
                 ;;
             *)
                 cd "../$tgt" # back to home, into correspondig dir
-                file="$(realpath -s --relative-to "$back_to_home" "$t")"
-                target="$(realpath -s --relative-to . "$back_to_home/$dotdir/$src/$t")"
+                local file="$(realpath -s --relative-to "$back_to_home" "$t")"
+                local target="$(realpath -s --relative-to . "$back_to_home/$dotdir/$src/$t")"
                 if [[ -L $t && $(readlink "$t") == $target ]]; then
                     echo "          \"$file\""
                 elif [[ -e $t ]]; then
