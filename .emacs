@@ -10,23 +10,26 @@
              '("melpa" . "http://melpa.org/packages/"))
 (package-initialize)
 
-(defun check-and-install (package)
-  (unless (package-installed-p package)
-    (package-install package)))
+(require 'cl-lib)
+(defun my-packages (packages)
+ (let ((installed (mapcar #'package-installed-p packages)))
+  (when (cl-some #'not installed)
+   (package-refresh-contents)
+   (cl-mapc (lambda (i p) (unless i (package-install p))) installed packages))))
 
-(mapc 'check-and-install '(color-theme-sanityinc-tomorrow
-                           evil
-                           helm
-                           magit
-                           smartparens
-                           evil-smartparens
-                           clojure-mode
-                           cider
-                           company
-                           cider-eval-sexp-fu
-                           clj-refactor
-                           rainbow-delimiters
-                           smart-mode-line))
+(my-packages '(color-theme-sanityinc-tomorrow
+               evil
+               helm
+               magit
+               smartparens
+               evil-smartparens
+               clojure-mode
+               cider
+               company
+               cider-eval-sexp-fu
+               clj-refactor
+               rainbow-delimiters
+               smart-mode-line))
 
 
 (custom-set-variables
