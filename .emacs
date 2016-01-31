@@ -5,6 +5,9 @@
 
 (setq-default indent-tabs-mode nil)
 
+(add-to-list 'default-frame-alist
+             '(font . "Source Code Pro"))
+
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/"))
