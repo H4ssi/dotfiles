@@ -16,3 +16,5 @@
 	smtpserverport = 587
 [alias]
 	diffc = diff --word-diff=color
+[credential "https://github.com"]
+	username = H4ssi
