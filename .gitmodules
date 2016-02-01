@@ -1,6 +1,6 @@
 [submodule "sources_non_forked/rainbow_parentheses.vim"]
 	path = sources_non_forked/rainbow_parentheses.vim
-	url = git@github.com:junegunn/rainbow_parentheses.vim.git
+	url = https://github.com/junegunn/rainbow_parentheses.vim.git
 	branch = master
 [submodule "sources_non_forked/vim-tomorrow-theme"]
 	path = sources_non_forked/vim-tomorrow-theme
