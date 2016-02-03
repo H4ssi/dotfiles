@@ -24,6 +24,8 @@
                evil
                helm
                magit
+               projectile
+               helm-projectile
                smartparens
                evil-smartparens
                clojure-mode
@@ -68,6 +70,12 @@
 (helm-autoresize-mode 1)
 
 (setq magit-last-seen-setup-instructions "1.4.0")
+
+(require 'projectile)
+(projectile-global-mode)
+
+(require 'helm-projectile)
+(helm-projectile-on)
 
 ; smartparens
 (require 'smartparens-config)
