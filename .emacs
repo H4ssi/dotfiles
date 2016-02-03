@@ -22,6 +22,7 @@
 
 (my-packages '(color-theme-sanityinc-tomorrow
                evil
+               evil-escape
                helm
                magit
                projectile
@@ -59,6 +60,9 @@
 
 (require 'evil)
 (evil-mode t)
+
+(require 'evil-escape)
+(evil-escape-mode)
 
 (require 'helm-config)
 (helm-mode 1)
