@@ -29,6 +29,7 @@
                helm-projectile
                smartparens
                evil-smartparens
+               web-mode
                clojure-mode
                cider
                company
@@ -91,6 +92,9 @@
 
 ; evil-smartparens
 (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
+
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 
 ; cider
 (add-hook 'cider-mode-hook #'eldoc-mode)
