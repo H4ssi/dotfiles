@@ -4,6 +4,10 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
+(set-language-environment "UTF-8")
+(set-locale-environment "en_US.UTF-8")
+(prefer-coding-system 'utf-8-unix)
+
 (setq-default indent-tabs-mode nil)
 
 (add-to-list 'default-frame-alist
