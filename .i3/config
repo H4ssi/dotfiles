@@ -40,8 +40,12 @@ floating_modifier $mod
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
 
-bindsym XF86MonBrightnessUp exec true i3barjs brightness up
-bindsym XF86MonBrightnessDown exec true i3barjs brightness down
+bindsym XF86MonBrightnessUp nop i3barjs brightness up
+bindsym XF86MonBrightnessDown nop i3barjs brightness down
+bindsym XF86AudioRaiseVolume nop i3barjs volume up
+bindsym XF86AudioLowerVolume nop i3barjs volume down
+bindsym XF86AudioMute nop i3barjs volume toggle
+bindsym XF86AudioMicMute nop i3barjs volume toggle-mic
 
 # kill focused window
 bindsym $mod+Shift+q kill
