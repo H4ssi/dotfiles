@@ -23,6 +23,8 @@
 (my-packages '(color-theme-sanityinc-tomorrow
                evil
                evil-escape
+               org
+               evil-org
                helm
                magit
                projectile
@@ -64,6 +66,8 @@
 
 (require 'evil-escape)
 (evil-escape-mode)
+
+(require 'evil-org)
 
 (require 'helm-config)
 (helm-mode 1)
