@@ -130,3 +130,5 @@
 ; smart mode line
 (setq sml/theme 'respectful)
 (sml/setup)
+
+(add-to-list 'auto-mode-alist '("\\.t\\'" . perl-mode))
