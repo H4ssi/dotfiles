@@ -1,8 +1,7 @@
 [submodule ".oh-my-zsh"]
 	path = .oh-my-zsh
-	url = git://github.com/robbyrussell/oh-my-zsh.git
-	branch = master
+	url = https://github.com/robbyrussell/oh-my-zsh.git
 [submodule ".vim_runtime"]
 	path = .vim_runtime
-	url = git@github.com:H4ssi/dotfiles
+	url = https://github.com/h4ssi/dotfiles.git
 	branch = amix-vimrc
