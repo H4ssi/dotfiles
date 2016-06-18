@@ -1,5 +1,6 @@
 
 set guioptions-=m
+set guifont=Source\ Code\ Pro\ 11
 
 colorscheme Tomorrow-Night-Eighties
 
