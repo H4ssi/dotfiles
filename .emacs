@@ -41,7 +41,6 @@
                clojure-mode
                cider
                company
-               cider-eval-sexp-fu
                clj-refactor
                rainbow-delimiters
                smart-mode-line))
@@ -114,9 +113,6 @@
 (add-hook 'after-init-hook 'global-company-mode)
 (customize-set-variable 'company-idle-delay 0.1)
 (customize-set-variable 'company-minimum-prefix-length 1)
-
-; cider-eval-sexp-fu
-(require 'cider-eval-sexp-fu)
 
 ; clj-refactor
 (require 'clj-refactor)
