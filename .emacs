@@ -83,7 +83,19 @@
 (global-set-key (kbd "M-x") 'helm-M-x)
 (helm-autoresize-mode 1)
 
+(require 'magit)
+
 (setq magit-last-seen-setup-instructions "1.4.0")
+
+(defun org-sync ()
+  (interactive)
+  (let ((commited (magit-call-git "commit" "-a" "--allow-empty-message" "-m" ""))
+        (conflict (magit-call-git "pull" "--rebase")))
+    (if (= 0 conflict)
+        (when (= 0 commited)
+          (magit-run-git-async "push"))
+      (magit-status))))
+
 
 (require 'projectile)
 (projectile-global-mode)
