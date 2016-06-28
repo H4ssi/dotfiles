@@ -7,7 +7,9 @@
 
 (set-language-environment "UTF-8")
 (set-locale-environment "en_US.UTF-8")
+(set-coding-system-priority 'utf-8 'windows-1252-dos)
 (prefer-coding-system 'utf-8-unix)
+(add-to-list 'file-coding-system-alist '("\\.\\(bat\\|cmd\\)$" . cp850-dos))
 
 (setq-default indent-tabs-mode nil)
 
