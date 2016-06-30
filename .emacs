@@ -23,10 +23,14 @@
 
 (require 'cl-lib)
 (defun my-packages (packages)
- (let ((installed (mapcar #'package-installed-p packages)))
-  (when (cl-some #'not installed)
-   (package-refresh-contents)
-   (cl-mapc (lambda (i p) (unless i (package-install p))) installed packages))))
+  (let* ((melpa-installed-p (lambda (p) (assq p package-alist)))
+         (installed (mapcar melpa-installed-p packages)))
+    (when (cl-some #'not installed)
+      (package-refresh-contents)
+      (cl-mapc (lambda (i p) (unless i
+                               (let ((pkg (assq p package-archive-contents)))
+                                 (when pkg (package-install (cadr pkg))))))
+               installed packages))))
 
 (my-packages '(color-theme-sanityinc-tomorrow
                evil
