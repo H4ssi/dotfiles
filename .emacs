@@ -78,6 +78,9 @@
 (require 'evil-escape)
 (evil-escape-mode)
 
+(require 'org)
+(customize-set-variable 'org-log-note-clock-out t)
+
 (require 'evil-org)
 
 (require 'helm-config)
