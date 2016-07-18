@@ -2,7 +2,8 @@
 	name = Florian Hassanen
 	email = florian.hassanen@gmail.com
 [merge]
-	tool = p4merge
+	tool = vimdiff3
+	conflictStyle = diff3
 [diff]
 	tool = p4merge
 [push]
