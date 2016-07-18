@@ -14,7 +14,7 @@
 (setq-default indent-tabs-mode nil)
 
 (add-to-list 'default-frame-alist
-             '(font . "Source Code Pro"))
+             '(font . "Source Code Pro-11"))
 
 (require 'package)
 (add-to-list 'package-archives
