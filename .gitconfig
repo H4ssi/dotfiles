@@ -17,3 +17,6 @@
 	diffc = diff --word-diff=color
 [credential "https://github.com"]
 	username = H4ssi
+[rerere]
+	enabled = true
+	autoUpdate = true
