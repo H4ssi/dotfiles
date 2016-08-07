@@ -17,9 +17,16 @@
              '(font . "Source Code Pro-11"))
 
 (require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/"))
-(package-initialize)
+(customize-set-variable 'package-enable-at-startup nil)
+(package-initialize t)
+
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+
+(if (not (package-installed-p 'use-package))
+    (progn
+      (package-refresh-contents)
+      (package-install 'use-package)))
 
 (require 'cl-lib)
 (defun my-packages (packages)
@@ -46,11 +53,13 @@
                web-mode
                clojure-mode
                cider
-               company
                clj-refactor
                rainbow-delimiters
                smart-mode-line))
 
+(package-initialize)
+
+(require 'use-package)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -130,10 +139,23 @@
 (add-hook 'cider-mode-hook #'eldoc-mode)
 (setq nrepl-hide-special-buffers t)
 
-; company
-(add-hook 'after-init-hook 'global-company-mode)
-(customize-set-variable 'company-idle-delay 0.1)
-(customize-set-variable 'company-minimum-prefix-length 1)
+(use-package
+ company
+ :ensure t
+ :demand t
+ :bind (:map
+        company-active-map
+        ("<return>" . nil)
+        ("RET" . nil)
+        ("<C-return>" . company-complete-selection)
+        ("<tab>" . nil)
+        ("TAB" . nil)
+        ("<C-tab>" . company-complete-common-or-cycle))
+ :init
+ (setq company-idle-delay 0.1)
+ (setq company-minimum-prefix-length 1)
+ :config
+ (global-company-mode))
 
 ; clj-refactor
 (require 'clj-refactor)
