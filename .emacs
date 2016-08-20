@@ -28,47 +28,19 @@
       (package-refresh-contents)
       (package-install 'use-package)))
 
-(require 'cl-lib)
-(defun my-packages (packages)
-  (let* ((melpa-installed-p (lambda (p) (assq p package-alist)))
-         (installed (mapcar melpa-installed-p packages)))
-    (when (cl-some #'not installed)
-      (package-refresh-contents)
-      (cl-mapc (lambda (i p) (unless i
-                               (let ((pkg (assq p package-archive-contents)))
-                                 (when pkg (package-install (cadr pkg))))))
-               installed packages))))
-
-(my-packages '(color-theme-sanityinc-tomorrow
-               evil
-               evil-escape
-               org
-               evil-org
-               helm
-               magit
-               projectile
-               helm-projectile
-               smartparens
-               evil-smartparens
-               web-mode
-               clojure-mode
-               cider
-               clj-refactor
-               rainbow-delimiters
-               smart-mode-line))
-
 (package-initialize)
 
 (require 'use-package)
+;(customize-set-variable 'use-package-verbose t)
+(customize-set-variable 'use-package-always-ensure t)
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" default))))
+ )
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -78,70 +50,77 @@
  )
 
 
-(require 'color-theme-sanityinc-tomorrow)
-(load-theme 'sanityinc-tomorrow-eighties t)
+(use-package color-theme-sanityinc-tomorrow
+  :config
+  (customize-set-variable 'custom-safe-themes
+                          '("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223"
+                            default))
+  (load-theme 'sanityinc-tomorrow-eighties t))
 
-(require 'evil)
-(evil-mode t)
+(use-package evil
+  :config
+  (evil-mode t)
 
-(require 'evil-escape)
-(evil-escape-mode)
+  (use-package evil-escape
+    :config
+    (evil-escape-mode)))
 
-(require 'org)
-(customize-set-variable 'org-log-note-clock-out t)
+(use-package org
+  :ensure org-plus-contrib
+  :pin org
+  :mode ("\\.org\\'" . org-mode)
+  :config
+  (customize-set-variable 'org-log-note-clock-out t))
 
-(require 'evil-org)
+(use-package helm-config
+  :ensure helm
+  :init
+  (helm-mode 1)
+  :bind (("M-x" . helm-M-x)
+         :map
+         global-map
+         ([remap find-file] . helm-find-files)
+         ([remap occur] . helm-occur)
+         ([remap list-buffers] . helm-buffers-list)
+         ([remap dabbrev-expand] . helm-dabbrev)))
 
-(require 'helm-config)
-(helm-mode 1)
-(define-key global-map [remap find-file] 'helm-find-files)
-(define-key global-map [remap occur] 'helm-occur)
-(define-key global-map [remap list-buffers] 'helm-buffers-list)
-(define-key global-map [remap dabbrev-expand] 'helm-dabbrev)
-(global-set-key (kbd "M-x") 'helm-M-x)
-(helm-autoresize-mode 1)
+(use-package magit
+  :commands magit-status
+  :init
+  (setq magit-last-seen-setup-instructions "1.4.0")
+  :config
+  (defun org-sync ()
+    (interactive)
+    (let ((commited (magit-call-git "commit" "-a" "--allow-empty-message" "-m" ""))
+          (conflict (magit-call-git "pull" "--rebase")))
+      (if (= 0 conflict)
+          (magit-run-git-async "push")
+        (magit-status)))))
 
-(require 'magit)
+(use-package smartparens-config
+  :ensure smartparens
+  :demand t
+  :bind (:map
+         smartparens-mode-map
+         ("C-M-)" . sp-forward-slurp-sexp)
+         ("C-M-0" . sp-forward-barf-sexp)
+         ("C-M-(" . sp-backward-slurp-sexp)
+         ("C-M-9" . sp-backward-barf-sexp))
+  :config
+  (smartparens-global-mode t)
+  (use-package evil-smartparens
+    :commands evil-smartparens-mode
+    :init
+    (add-hook 'smartparens-enabled-hook 'evil-smartparens-mode)))
 
-(setq magit-last-seen-setup-instructions "1.4.0")
-
-(defun org-sync ()
-  (interactive)
-  (let ((commited (magit-call-git "commit" "-a" "--allow-empty-message" "-m" ""))
-        (conflict (magit-call-git "pull" "--rebase")))
-    (if (= 0 conflict)
-        (when (= 0 commited)
-          (magit-run-git-async "push"))
-      (magit-status))))
-
-
-(require 'projectile)
-(projectile-global-mode)
-
-(require 'helm-projectile)
-(helm-projectile-on)
-
-; smartparens
-(require 'smartparens-config)
-(smartparens-global-mode t)
-(define-key smartparens-mode-map (kbd "C-M-)") 'sp-forward-slurp-sexp)
-(define-key smartparens-mode-map (kbd "C-M-0") 'sp-forward-barf-sexp)
-(define-key smartparens-mode-map (kbd "C-M-(") 'sp-backward-slurp-sexp)
-(define-key smartparens-mode-map (kbd "C-M-9") 'sp-backward-barf-sexp)
-
-; evil-smartparens
-(add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
-
-(require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+(use-package web-mode
+  :mode ("\\.html?\\'" . web-mode))
 
 ; cider
-(add-hook 'cider-mode-hook #'eldoc-mode)
-(setq nrepl-hide-special-buffers t)
+;(add-hook 'cider-mode-hook #'eldoc-mode)
+;(setq nrepl-hide-special-buffers t)
 
-(use-package
- company
- :ensure t
+(use-package company
  :demand t
  :bind (:map
         company-active-map
@@ -151,24 +130,29 @@
         ("<tab>" . nil)
         ("TAB" . nil)
         ("<C-tab>" . company-complete-common-or-cycle))
- :init
- (setq company-idle-delay 0.1)
- (setq company-minimum-prefix-length 1)
  :config
+ (customize-set-variable 'company-idle-delay 0.1)
+ (customize-set-variable 'company-minimum-prefix-length 1)
  (global-company-mode))
 
 ; clj-refactor
-(require 'clj-refactor)
-(add-hook 'clojure-mode-hook (lambda ()
-                               (clj-refactor-mode 1)
-                               (cljr-add-keybindings-with-prefix "C-c C-a")))
+;(require 'clj-refactor)
+;(add-hook 'clojure-mode-hook (lambda ()
+;                               (clj-refactor-mode 1)
+;                               (cljr-add-keybindings-with-prefix "C-c C-a")))
 
-(yas/global-mode 1)
+(use-package yasnippet
+  :config
+  (yas-global-mode 1))
 
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+(use-package rainbow-delimiters
+  :commands rainbow-delimiters-mode
+  :init
+  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
-; smart mode line
-(setq sml/theme 'respectful)
-(sml/setup)
+(use-package smart-mode-line
+  :config
+  (customize-set-variable 'sml/theme 'respectful)
+  (sml/setup))
 
 (add-to-list 'auto-mode-alist '("\\.t\\'" . perl-mode))
