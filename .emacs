@@ -5,6 +5,9 @@
 (scroll-bar-mode -1)
 (setq ring-bell-function 'ignore)
 
+(customize-set-variable 'user-full-name "Florian Hassanen")
+(customize-set-variable 'user-mail-address "florian.hassanen@gmail.com")
+
 (set-language-environment "UTF-8")
 (set-locale-environment "en_US.UTF-8")
 (set-coding-system-priority 'utf-8 'windows-1252-dos)
