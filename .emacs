@@ -1,12 +1,27 @@
+;; -*- orgstruct-heading-prefix-regexp: ";;; " -*-
+
+;;; * window/gui tweaks
+
+;; to make window look nicely
+
 (setq inhibit-startup-screen t)
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+
+;; this avoids blinking app icon in windows
 (setq ring-bell-function 'ignore)
+
+(add-to-list 'default-frame-alist
+             '(font . "Source Code Pro-11"))
+
+;;; * user info
 
 (customize-set-variable 'user-full-name "Florian Hassanen")
 (customize-set-variable 'user-mail-address "florian.hassanen@gmail.com")
+
+;;; * encoding
 
 (set-language-environment "UTF-8")
 (set-locale-environment "en_US.UTF-8")
@@ -16,8 +31,7 @@
 
 (setq-default indent-tabs-mode nil)
 
-(add-to-list 'default-frame-alist
-             '(font . "Source Code Pro-11"))
+;;; * package.el
 
 (require 'package)
 (customize-set-variable 'package-enable-at-startup nil)
@@ -25,6 +39,10 @@
 
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+
+;;; ** use-package
+
+;; use-package is used to organize this .emacs
 
 (if (not (package-installed-p 'use-package))
     (progn
@@ -34,9 +52,10 @@
 (package-initialize)
 
 (require 'use-package)
-;(customize-set-variable 'use-package-verbose t)
+;;(customize-set-variable 'use-package-verbose t)
 (customize-set-variable 'use-package-always-ensure t)
 
+;;; * emacs customize auto generated config
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -52,6 +71,7 @@
  ;; If there is more than one, they won't work right.
  )
 
+;;; * packages
 
 (use-package color-theme-sanityinc-tomorrow
   :config
@@ -119,10 +139,6 @@
 (use-package web-mode
   :mode ("\\.html?\\'" . web-mode))
 
-; cider
-;(add-hook 'cider-mode-hook #'eldoc-mode)
-;(setq nrepl-hide-special-buffers t)
-
 (use-package company
  :demand t
  :bind (:map
@@ -138,12 +154,6 @@
  (customize-set-variable 'company-minimum-prefix-length 1)
  (global-company-mode))
 
-; clj-refactor
-;(require 'clj-refactor)
-;(add-hook 'clojure-mode-hook (lambda ()
-;                               (clj-refactor-mode 1)
-;                               (cljr-add-keybindings-with-prefix "C-c C-a")))
-
 (use-package yasnippet
   :config
   (yas-global-mode 1))
@@ -157,5 +167,20 @@
   :config
   (customize-set-variable 'sml/theme 'respectful)
   (sml/setup))
+
+;;; ** TODO provide some nice key-bindings for syncing org files within git
+;;; ** currently unused/unconfigured
+
+;; cider
+;;(add-hook 'cider-mode-hook #'eldoc-mode)
+;;(setq nrepl-hide-special-buffers t)
+
+;; clj-refactor
+;;(require 'clj-refactor)
+;;(add-hook 'clojure-mode-hook (lambda ()
+;;                               (clj-refactor-mode 1)
+;;                               (cljr-add-keybindings-with-prefix "C-c C-a")))
+
+;;; * misc configuration
 
 (add-to-list 'auto-mode-alist '("\\.t\\'" . perl-mode))
