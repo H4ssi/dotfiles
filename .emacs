@@ -114,10 +114,15 @@
   :config
   (defun org-sync ()
     (interactive)
-    (let ((commited (magit-call-git "commit" "-a" "--allow-empty-message" "-m" ""))
-          (conflict (magit-call-git "pull" "--rebase")))
-      (if (= 0 conflict)
-          (magit-run-git-async "push")
+    (save-buffer)
+    (if (magit-git-string "status" "-uno" "--porcelain")
+        (magit-call-git "commit" "-a" "--allow-empty-message" "-m" ""))
+    (if (magit-git-success "pull")
+        (progn
+          (magit-run-git "push")
+          (revert-buffer t t))
+      (progn
+        (magit-refresh)
         (magit-status)))))
 
 (use-package smartparens-config
