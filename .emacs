@@ -93,7 +93,8 @@
   :pin org
   :mode ("\\.org\\'" . org-mode)
   :config
-  (customize-set-variable 'org-log-note-clock-out t))
+  (customize-set-variable 'org-log-note-clock-out t)
+  (customize-set-variable 'org-pretty-entities t))
 
 (use-package helm-config
   :ensure helm
