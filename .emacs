@@ -43,11 +43,19 @@
 ;;; ** use-package
 
 ;; use-package is used to organize this .emacs
+(setq my/package-el-refreshed nil)
+(advice-add 'package-refresh-contents
+            :after
+            (lambda (&rest args)
+              (setq my/package-el-refreshed t)))
+(advice-add 'package-install
+            :before
+             (lambda (&rest args)
+               (when (not my/package-el-refreshed)
+                 (package-refresh-contents))))
 
-(if (not (package-installed-p 'use-package))
-    (progn
-      (package-refresh-contents)
-      (package-install 'use-package)))
+(when (not (package-installed-p 'use-package))
+        (package-install 'use-package))
 
 (package-initialize)
 
