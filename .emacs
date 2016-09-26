@@ -65,28 +65,28 @@
 
 ;;; * emacs customize auto generated config
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;;; ensure this file is not overwritten automatically
+;;; customizations will be done manually, so disregard
+;;; this custom-file (i.e. do not load it)
+(setq custom-file "~/.emacs-custom-ignored.el")
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(customize-set-variable 'custom-safe-themes
+                        '("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223"
+                          "9be1d34d961a40d94ef94d0d08a364c3d27201f3c98c9d38e36f10588469ea57"
+                          default))
 
 ;;; * packages
 
-(use-package color-theme-sanityinc-tomorrow
+(use-package base16-theme
   :config
-  (customize-set-variable 'custom-safe-themes
-                          '("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223"
-                            default))
-  (load-theme 'sanityinc-tomorrow-eighties t))
+  (load-theme 'base16-eighties t)
+  (defvar my/base16-colors base16-eighties-colors)
+  (setq evil-emacs-state-cursor   `(,(plist-get my/base16-colors :base0D) box)
+        evil-insert-state-cursor  `(,(plist-get my/base16-colors :base0D) bar)
+        evil-motion-state-cursor  `(,(plist-get my/base16-colors :base0E) box)
+        evil-normal-state-cursor  `(,(plist-get my/base16-colors :base0B) box)
+        evil-replace-state-cursor `(,(plist-get my/base16-colors :base08) bar)
+        evil-visual-state-cursor  `(,(plist-get my/base16-colors :base09) box)))
 
 (use-package evil
   :config
