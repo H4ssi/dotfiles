@@ -48,7 +48,13 @@ install_links () {
                     echo "overwrite \"$file\""
                     ln -sf "$target" .
                 elif [[ -e $t ]]; then
-                    echo "skipped   \"$file\""
+                    if ignore=$(diff "$t" "$target"); then
+                        rm "$t"
+                        ln -s "$target" .
+                        echo "replaced  \"$file\""
+                    else
+                        echo "skipped   \"$file\""
+                    fi
                 else
                     ln -s "$target" .
                     echo "installed \"$file\""
