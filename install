@@ -44,6 +44,9 @@ install_links () {
                 local target="$(realpath -s --relative-to . "$back_to_home/$dotdir/$src/$t")"
                 if [[ -L $t && $(readlink "$t") == $target ]]; then
                     echo "          \"$file\""
+                elif [[ -L $t && ! -e $t ]]; then # link without target
+                    echo "overwrite \"$file\""
+                    ln -sf "$target" .
                 elif [[ -e $t ]]; then
                     echo "skipped   \"$file\""
                 else
