@@ -38,7 +38,8 @@
 (package-initialize t)
 
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 
 ;;; ** use-package
 
@@ -190,15 +191,22 @@
 ;;; ** TODO provide some nice key-bindings for syncing org files within git
 ;;; ** currently unused/unconfigured
 
-;; cider
-;;(add-hook 'cider-mode-hook #'eldoc-mode)
-;;(setq nrepl-hide-special-buffers t)
+(use-package cider
+  :pin melpa-stable
+  :commands (cider-connect cider-jack-in)
+  :config
+  (add-hook 'cider-mode-hook #'eldoc-mode)
+  ;;(setq nrepl-hide-special-buffers t)
+  )
 
 ;; clj-refactor
-;;(require 'clj-refactor)
-;;(add-hook 'clojure-mode-hook (lambda ()
-;;                               (clj-refactor-mode 1)
-;;                               (cljr-add-keybindings-with-prefix "C-c C-a")))
+(use-package clj-refactor
+  :pin melpa-stable
+  :commands clj-refactor-mode
+  :config
+  (add-hook 'clojure-mode-hook (lambda ()
+                                 (clj-refactor-mode 1)
+                                 (cljr-add-keybindings-with-prefix "C-c C-a"))))
 
 ;;; * misc configuration
 
