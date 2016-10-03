@@ -106,6 +106,9 @@
   (customize-set-variable 'org-log-note-clock-out t)
   (customize-set-variable 'org-pretty-entities t))
 
+(use-package writeroom-mode
+  :commands writeroom-mode)
+
 (use-package helm-config
   :ensure helm
   :init
