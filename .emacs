@@ -192,10 +192,9 @@
   :init
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
-(use-package smart-mode-line
+(use-package powerline
   :config
-  (customize-set-variable 'sml/theme 'respectful)
-  (sml/setup))
+  (powerline-center-evil-theme))
 
 ;;; ** TODO provide some nice key-bindings for syncing org files within git
 ;;; ** currently unused/unconfigured
