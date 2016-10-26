@@ -104,6 +104,10 @@
   :config
   (evil-escape-mode))
 
+(use-package aggressive-indent
+  :config
+  (global-aggressive-indent-mode 1))
+
 (use-package org
   :ensure org-plus-contrib
   :pin org
