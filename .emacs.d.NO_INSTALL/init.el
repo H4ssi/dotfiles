@@ -97,6 +97,8 @@
 
 (use-package evil
   :config
+  (customize-set-variable 'evil-echo-state nil)
+  (customize-set-variable 'evil-want-fine-undo t)
   (evil-mode t))
 
 (use-package evil-escape
