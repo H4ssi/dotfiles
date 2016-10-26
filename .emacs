@@ -62,7 +62,11 @@
 
 (package-initialize)
 
-(require 'use-package)
+(eval-when-compile
+  (require 'use-package))
+(require 'diminish)
+(require 'bind-key)
+
 ;;(customize-set-variable 'use-package-verbose t)
 (customize-set-variable 'use-package-always-ensure t)
 
