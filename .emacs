@@ -97,11 +97,12 @@
 
 (use-package evil
   :config
-  (evil-mode t)
+  (evil-mode t))
 
-  (use-package evil-escape
-    :config
-    (evil-escape-mode)))
+(use-package evil-escape
+  :after evil
+  :config
+  (evil-escape-mode))
 
 (use-package org
   :ensure org-plus-contrib
