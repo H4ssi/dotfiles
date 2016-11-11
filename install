@@ -28,6 +28,7 @@ install_links () {
             README.md) ;;
             install) ;;
             test) ;;
+            *~) ;;
             *.NO_INSTALL)
                 local t_real=${t%.NO_INSTALL}
                 local t_path="../$tgt/$t_real" # from dotdir to home to target path
