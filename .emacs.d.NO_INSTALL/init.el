@@ -4,7 +4,8 @@
 
 ;; to make window look nicely
 
-(setq inhibit-startup-screen t)
+(customize-set-variable 'inhibit-startup-screen t)
+(customize-set-variable 'inhibit-startup-echo-area-message (user-login-name))
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
