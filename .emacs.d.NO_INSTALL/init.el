@@ -12,7 +12,7 @@
 (scroll-bar-mode -1)
 
 ;; this avoids blinking app icon in windows
-(setq ring-bell-function 'ignore)
+(customize-set-variable 'ring-bell-function 'ignore)
 
 (add-to-list 'default-frame-alist
              '(font . "Source Code Pro-11"))
