@@ -170,6 +170,9 @@
 (use-package web-mode
   :mode ("\\.html?\\'" . web-mode))
 
+(use-package rjsx-mode
+  :mode ("\\.jsx\\'" . rjsx-mode))
+
 (use-package company
  :demand t
  :bind (:map
