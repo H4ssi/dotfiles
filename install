@@ -3,10 +3,29 @@
 set -e
 set -u
 
+usage () {
+    echo -e \
+         "install [-n]"\
+         "\n    -n dry run"\
+         >&2
+    exit 1
+}
+
 if [[ ! -f $0 ]]; then
     echo "call on real install file!"
-    exit 1
+    exit 2
 fi
+
+dry_run=""
+
+while getopts "n" opt; do
+    case "$opt" in
+        n) dry_run=1
+           ;;
+        *) usage
+           ;;
+    esac
+done
 
 install="$(dirname "$0")"
 
@@ -15,12 +34,12 @@ pushd "$install" > /dev/null
 dotdir="$(basename "$(pwd -L)")"
 
 install_links () {
-    local src=${1}
-    local tgt=${2}
-    local back_to_home=${3}
-    for path in $(find "$src" -mindepth 1 -maxdepth 1); do
-        local t="$(basename "$path")"
-        case "$t" in
+    local dot_subdir=${1}
+    local install_subdir=${2}
+    local install_dir=${3}
+    for path_entry in $(find "$dot_subdir" -mindepth 1 -maxdepth 1); do
+        local file_entry="$(basename "$path_entry")"
+        case "$file_entry" in
             .git) ;;
             .gitignore) ;;
             .gitmodules) ;;
@@ -30,43 +49,48 @@ install_links () {
             test) ;;
             *~) ;;
             *.NO_INSTALL)
-                local t_real=${t%.NO_INSTALL}
-                local t_path="../$tgt/$t_real" # from dotdir to home to target path
-                if [[ ! -e $t_path ]]; then
-                    mkdir "$t_path"
-                elif [[ ! -d $t_path || -L $t_path ]]; then
-                    echo "error     \"$tgt/$t_real\" not a directory"
+                # create directories
+                local file_entry_real=${file_entry%.NO_INSTALL}
+                local file_entry_path="$install_subdir/$file_entry_real" # from dotdir to home to target path
+                local file="$(realpath -m -s --relative-to="$install_dir" "$file_entry_path")"
+                if [[ ! -e $file_entry_path ]]; then
+                    echo "mkdir     \"$file\""
+                    [[ -n "$dry_run" ]] || mkdir "$file_entry_path"
+                fi
+                if [[ ! -d $file_entry_path || -L $file_entry_path ]]; then
+                    echo "error     \"$file\" not a directory"
                 else
-                    install_links "$src/$t" "$tgt/$t_real" "$back_to_home/.."
+                    install_links "$dot_subdir/$file_entry" "$install_subdir/$file_entry_real" "$install_dir"
                 fi
                 ;;
             *)
-                cd "../$tgt" # back to home, into correspondig dir
-                local file="$(realpath -s --relative-to "$back_to_home" "$t")"
-                local target="$(realpath -s --relative-to . "$back_to_home/$dotdir/$src/$t")"
-                if [[ -L $t && $(readlink "$t") == $target ]]; then
+                # create links
+                link_dot_subdir="$dot_subdir/$file_entry"
+                local target="$(realpath -m -s --relative-to="$install_subdir" "$link_dot_subdir")"
+                link_install_subdir="$install_subdir/$file_entry"
+                local file="$(realpath -m -s --relative-to="$install_dir" "$link_install_subdir")"
+                if [[ -L $link_install_subdir && $(readlink "$link_install_subdir") == $target ]]; then
                     echo "          \"$file\""
-                elif [[ -L $t && ! -e $t ]]; then # link without target
-                    echo "overwrite \"$file\""
-                    ln -sf "$target" .
-                elif [[ -e $t ]]; then
-                    if ignore=$(diff "$t" "$target"); then
-                        rm "$t"
-                        ln -s "$target" .
+                elif [[ -L $link_install_subdir && ! -e $link_install_subdir ]]; then # link without target
+                    echo "overwrite \"$file\" -> \"$target\""
+                    [[ -n "$dry_run" ]] || ln -sf "$target" "$link_install_subdir"
+                elif [[ -e $link_install_subdir ]]; then
+                    if ignore=$(diff "$link_install_subdir" "$link_dot_subdir"); then
+                        [[ -n "$dry_run" ]] || rm "$link_install_subdir"
+                        [[ -n "$dry_run" ]] || ln -s "$target" "$link_install_subdir"
                         echo "replaced  \"$file\""
                     else
                         echo "skipped   \"$file\""
                     fi
                 else
-                    ln -s "$target" .
-                    echo "installed \"$file\""
+                    [[ -n "$dry_run" ]] || ln -s "$target" "$link_install_subdir"
+                    echo "installed \"$file\" -> \"$target\""
                 fi
-                cd "$back_to_home/$dotdir"
                 ;;
         esac
     done
 }
 
-install_links . . .
+install_links . .. ..
 
 popd > /dev/null

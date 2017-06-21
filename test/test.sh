@@ -93,8 +93,16 @@ DOT="$DIR/dotfiles"
 
 cp ../install "$DOT"
 pushd "$DOT" > /dev/null
+echo == dry run ==
+./install -n
+popd > /dev/null
+
+# dry run must not change anything
+expect_dir_ident "$DIR" "$REF"
+
+pushd "$DOT" > /dev/null
+echo == wet run ==
 ./install
-./install # TODO needs to be run twice due to bug after mkdir
 popd > /dev/null
 
 expect_dir_ident "$DIR/dotfiles" "$REF/dotfiles"
