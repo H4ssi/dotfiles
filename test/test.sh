@@ -29,6 +29,18 @@ prepare () {
 
     ln -s "$RDOT/.existing-link" "$HOM/.existing-link"
     ln -s "$RDOT/.copy-dir.NO_INSTALL/.existing-link" "$HOM/.copy-dir/.existing-link"
+
+    ln -s "bogus" "$HOM/.existing-bogus-link"
+    ln -s "../bogus" "$HOM/.copy-dir/.existing-bogus-link"
+    echo k > "$DOT/.existing-bogus-link"
+    echo l > "$DOT/.copy-dir.NO_INSTALL/.existing-bogus-link"
+
+    echo m > "$HOM/valid"
+    ln -s "valid" "$HOM/.existing-valid-link"
+    ln -s "../valid" "$HOM/.copy-dir/.existing-valid-link"
+    echo n > "$DOT/.existing-valid-link"
+    echo o > "$DOT/.copy-dir.NO_INSTALL/.existing-valid-link"
+
 }
 
 expect_link () {
@@ -62,6 +74,12 @@ check () {
     expect_content "$HOM/.existing-file" "f"
     expect_no_link "$HOM/.copy-dir/.existing-file"
     expect_content "$HOM/.copy-dir/.existing-file" "h"
+    expect_link "$HOM/.existing-bogus-link" "$RDOT/.existing-bogus-link"
+    expect_content "$HOM/.existing-bogus-link" "k"
+    expect_link "$HOM/.copy-dir/.existing-bogus-link" "../$RDOT/.copy-dir.NO_INSTALL/.existing-bogus-link"
+    expect_content "$HOM/.copy-dir/.existing-bogus-link" "l"
+    expect_link "$HOM/.existing-valid-link" "valid"
+    expect_link "$HOM/.copy-dir/.existing-valid-link" "../valid"
 }
 
 expect_dir_ident () {
