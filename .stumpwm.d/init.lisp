@@ -35,3 +35,7 @@
 (define-key *top-map* (kbd "XF86MonBrightnessDown") "brightness-down")
 (define-key *top-map* (kbd "C-XF86MonBrightnessUp") "brightness-set 100")
 (define-key *top-map* (kbd "C-XF86MonBrightnessDown") "brightness-set 1")
+
+(define-key *root-map* (kbd "Delete") "exec i3lock -c 000000 -u -e")
+(define-key *root-map* (kbd "C-Delete") "exec i3lock -c 000000 -u -e && systemctl hibernate")
+(define-key *root-map* (kbd "C-M-Delete") "exec systemctl poweroff")
