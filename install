@@ -55,9 +55,9 @@ install_links () {
                 local file="$(realpath -m -s --relative-to="$install_dir" "$file_entry_path")"
                 if [[ ! -e $file_entry_path ]]; then
                     echo "mkdir     \"$file\""
-                    [[ -n "$dry_run" ]] || mkdir "$file_entry_path"
+                    [[ -n $dry_run ]] || mkdir "$file_entry_path"
                 fi
-                if [[ ! -d $file_entry_path || -L $file_entry_path ]]; then
+                if [[ ! (-d $file_entry_path || (-n $dry_run && ! -e $file_entry_path)) || -L $file_entry_path ]]; then
                     echo "error     \"$file\" not a directory"
                 else
                     install_links "$dot_subdir/$file_entry" "$install_subdir/$file_entry_real" "$install_dir"
@@ -73,17 +73,17 @@ install_links () {
                     echo "          \"$file\""
                 elif [[ -L $link_install_subdir && ! -e $link_install_subdir ]]; then # link without target
                     echo "overwrite \"$file\" -> \"$target\""
-                    [[ -n "$dry_run" ]] || ln -sf "$target" "$link_install_subdir"
+                    [[ -n $dry_run ]] || ln -sf "$target" "$link_install_subdir"
                 elif [[ -e $link_install_subdir ]]; then
                     if ignore=$(diff "$link_install_subdir" "$link_dot_subdir"); then
-                        [[ -n "$dry_run" ]] || rm "$link_install_subdir"
-                        [[ -n "$dry_run" ]] || ln -s "$target" "$link_install_subdir"
+                        [[ -n $dry_run ]] || rm "$link_install_subdir"
+                        [[ -n $dry_run ]] || ln -s "$target" "$link_install_subdir"
                         echo "replaced  \"$file\""
                     else
                         echo "skipped   \"$file\""
                     fi
                 else
-                    [[ -n "$dry_run" ]] || ln -s "$target" "$link_install_subdir"
+                    [[ -n $dry_run ]] || ln -s "$target" "$link_install_subdir"
                     echo "installed \"$file\" -> \"$target\""
                 fi
                 ;;
