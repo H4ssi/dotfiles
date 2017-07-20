@@ -38,7 +38,7 @@ install_links () {
     local install_path=${2}
     local install_base_path=${3}
     local dot_file=
-    for dot_file in $(find "$dot_path" -mindepth 1 -maxdepth 1 -printf %f\\n); do
+    find "$dot_path" -mindepth 1 -maxdepth 1 -printf %f\\0 | while IFS= read -r -d '' dot_file; do
         local dot_full_path="$dot_path/$dot_file"
         case "$dot_file" in
             .git) ;;
