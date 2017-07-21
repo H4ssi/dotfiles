@@ -49,6 +49,7 @@ install_links () {
             install) ;;
             test) ;;
             *~) ;;
+            \#*\#) ;;
             *.NO_INSTALL)
                 # create directories
                 local install_file=${dot_file%.NO_INSTALL}
