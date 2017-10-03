@@ -127,9 +127,7 @@
   :ensure helm
   :init
   (helm-mode 1)
-  :bind (("M-x" . helm-M-x)
-         :map
-         global-map
+  :bind (([remap execute-extended-command] . helm-M-x)
          ([remap find-file] . helm-find-files)
          ([remap occur] . helm-occur)
          ([remap list-buffers] . helm-buffers-list)
