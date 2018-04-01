@@ -1,26 +1,29 @@
 ;; -*- orgstruct-heading-prefix-regexp: ";;; " -*-
 
+(defmacro setc (variable value)
+  `(customize-set-variable ',variable ,value))
+
 ;;; * window/gui tweaks
 
 ;; to make window look nicely
 
-(customize-set-variable 'inhibit-startup-screen t)
-(customize-set-variable 'inhibit-startup-echo-area-message (user-login-name))
+(setc inhibit-startup-screen t)
+(setc inhibit-startup-echo-area-message (user-login-name))
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
 ;; this avoids blinking app icon in windows
-(customize-set-variable 'ring-bell-function 'ignore)
+(setc ring-bell-function 'ignore)
 
 (add-to-list 'default-frame-alist
              '(font . "Source Code Pro-11"))
 
 ;;; * user info
 
-(customize-set-variable 'user-full-name "Florian Hassanen")
-(customize-set-variable 'user-mail-address "florian.hassanen@gmail.com")
+(setc user-full-name "Florian Hassanen")
+(setc user-mail-address "florian.hassanen@gmail.com")
 
 ;;; * encoding
 
@@ -35,7 +38,7 @@
 ;;; * package.el
 
 (require 'package)
-(customize-set-variable 'package-enable-at-startup nil)
+(setc package-enable-at-startup nil)
 (package-initialize t)
 
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -68,8 +71,8 @@
 (require 'diminish)
 (require 'bind-key)
 
-;;(customize-set-variable 'use-package-verbose t)
-(customize-set-variable 'use-package-always-ensure t)
+;;(setc use-package-verbose t)
+(setc use-package-always-ensure t)
 
 ;;; * emacs customize auto generated config
 
@@ -78,7 +81,7 @@
 ;;; this custom-file (i.e. do not load it)
 (setq custom-file "~/.emacs-custom-ignored.el")
 
-(customize-set-variable 'custom-safe-themes
+(setc custom-safe-themes
                         '("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223"
                           "9be1d34d961a40d94ef94d0d08a364c3d27201f3c98c9d38e36f10588469ea57"
                           default))
@@ -98,8 +101,8 @@
 
 (use-package evil
   :config
-  (customize-set-variable 'evil-echo-state nil)
-  (customize-set-variable 'evil-want-fine-undo t)
+  (setc evil-echo-state nil)
+  (setc evil-want-fine-undo t)
   (evil-mode t))
 
 (use-package evil-escape
@@ -116,9 +119,9 @@
   :pin org
   :mode ("\\.org\\'" . org-mode)
   :config
-  (customize-set-variable 'org-log-note-clock-out t)
-  (customize-set-variable 'org-duration-format 'h:mm)
-  (customize-set-variable 'org-pretty-entities t))
+  (setc org-log-note-clock-out t)
+  (setc org-duration-format 'h:mm)
+  (setc org-pretty-entities t))
 
 (use-package writeroom-mode
   :commands writeroom-mode)
@@ -184,8 +187,8 @@
         ("TAB" . nil)
         ("<C-tab>" . company-complete-common-or-cycle))
  :config
- (customize-set-variable 'company-idle-delay 0.1)
- (customize-set-variable 'company-minimum-prefix-length 1)
+ (setc company-idle-delay 0.1)
+ (setc company-minimum-prefix-length 1)
  (global-company-mode))
 
 (use-package yasnippet
