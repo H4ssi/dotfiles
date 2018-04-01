@@ -1,2 +1,13 @@
 *.orig
 *~
+
+# latex
+*.aux
+*.log
+*.out
+*.toc
+
+# bibtex
+*.bbl
+*.blg
+
