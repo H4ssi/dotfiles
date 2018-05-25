@@ -117,6 +117,7 @@
   :mode ("\\.org\\'" . org-mode)
   :config
   (customize-set-variable 'org-log-note-clock-out t)
+  (customize-set-variable 'org-duration-format 'h:mm)
   (customize-set-variable 'org-pretty-entities t))
 
 (use-package writeroom-mode
