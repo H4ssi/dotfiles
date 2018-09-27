@@ -41,6 +41,7 @@ install_links () {
     find "$dot_path" -mindepth 1 -maxdepth 1 -printf %f\\0 | while IFS= read -r -d '' dot_file; do
         local dot_full_path="$dot_path/$dot_file"
         case "$dot_file" in
+            dconf.sh) ;;
             .git) ;;
             .gitignore) ;;
             .gitmodules) ;;
