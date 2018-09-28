@@ -16,4 +16,4 @@ setup_gem_path
 unset -f setup_gem_path
 
 export TERMINAL=termite
-export EDITOR=vim
+export EDITOR=emacsclient
