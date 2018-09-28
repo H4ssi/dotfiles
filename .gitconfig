@@ -4,6 +4,8 @@
 [merge]
 	tool = vimdiff3
 	conflictStyle = diff3
+[pull]
+	rebase = true
 [push]
 	default = simple
 [core]
@@ -20,3 +22,6 @@
 [rerere]
 	enabled = true
 	autoUpdate = true
+[rebase]
+	autoStash = true
+	autoSquash = true
