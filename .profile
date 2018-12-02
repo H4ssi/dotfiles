@@ -1,7 +1,8 @@
 #!/bin/sh
-[ -d "${HOME}/bin" ] && export PATH="${HOME}/bin:${PATH}"
-[ -d "${HOME}/.node_modules/bin" ] && export PATH="${HOME}/.node_modules/bin:${PATH}"
-[ -d "${HOME}/.cabal/bin" ] && export PATH="${HOME}/.cabal/bin:${PATH}"
+[ -d "${HOME}/bin" ] && PATH="${HOME}/bin:${PATH}"
+[ -d "${HOME}/.local/bin" ] && PATH="${HOME}/.local/bin:${PATH}"
+[ -d "${HOME}/.node_modules/bin" ] && PATH="${HOME}/.node_modules/bin:${PATH}"
+[ -d "${HOME}/.cabal/bin" ] && PATH="${HOME}/.cabal/bin:${PATH}"
 
 setup_gem_path() {
     if which ruby gem > /dev/null; then
@@ -15,6 +16,7 @@ setup_gem_path() {
 setup_gem_path
 unset -f setup_gem_path
 
+export PATH
 export TERMINAL=termite
 export ALTERNATE_EDITOR=
 export EDITOR=emacsclient
