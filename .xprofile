@@ -1,6 +1,7 @@
 #!/bin/sh
 
-[ -f "~/.profile" ] && source "~/.profile"
+# shellcheck source=.profile
+[ -f ~/.profile ] && . ~/.profile
 
 xset -b
 
