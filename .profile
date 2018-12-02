@@ -5,11 +5,14 @@
 [ -d "${HOME}/.cabal/bin" ] && PATH="${HOME}/.cabal/bin:${PATH}"
 
 setup_gem_path() {
-    if which ruby gem > /dev/null; then
-        local IFS=:
+    if command -v ruby gem > /dev/null; then
+        OLD_IFS="${IFS}"
+        IFS=:
         for p in $(gem environment gempath); do
-            export PATH="${PATH}:$p/bin"
+            PATH="${PATH}:$p/bin"
         done
+        IFS="${OLD_IFS}"
+        unset OLD_IFS
     fi
 }
 
