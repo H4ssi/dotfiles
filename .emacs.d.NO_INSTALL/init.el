@@ -171,10 +171,17 @@
     (add-hook 'smartparens-enabled-hook 'evil-smartparens-mode)))
 
 (use-package web-mode
-  :mode ("\\.html?\\'" . web-mode))
+  :mode "\\.html?\\'")
+
+(use-package js2-mode
+  :mode "\\.js\\'"
+  :interpreter "node"
+  :config
+  (setc js-indent-level 2)
+  (setc js2-strict-missing-semi-warning nil))
 
 (use-package rjsx-mode
-  :mode ("\\.jsx\\'" . rjsx-mode))
+  :mode "\\.jsx\\'")
 
 (use-package company
  :demand t
