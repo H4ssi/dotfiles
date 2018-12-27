@@ -1,29 +1,29 @@
 ;; -*- orgstruct-heading-prefix-regexp: ";;; " -*-
 
-(defmacro setc (variable value)
+(defmacro custom (variable value)
   `(customize-set-variable ',variable ,value))
 
 ;;; * window/gui tweaks
 
 ;; to make window look nicely
 
-(setc inhibit-startup-screen t)
-(setc inhibit-startup-echo-area-message (user-login-name))
+(custom inhibit-startup-screen t)
+(custom inhibit-startup-echo-area-message (user-login-name))
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
 ;; this avoids blinking app icon in windows
-(setc ring-bell-function 'ignore)
+(custom ring-bell-function 'ignore)
 
 (add-to-list 'default-frame-alist
              '(font . "Source Code Pro-11"))
 
 ;;; * user info
 
-(setc user-full-name "Florian Hassanen")
-(setc user-mail-address "florian.hassanen@gmail.com")
+(custom user-full-name "Florian Hassanen")
+(custom user-mail-address "florian.hassanen@gmail.com")
 
 ;;; * encoding
 
@@ -38,7 +38,7 @@
 ;;; * package.el
 
 (require 'package)
-(setc package-enable-at-startup nil)
+(custom package-enable-at-startup nil)
 (package-initialize t)
 
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -71,8 +71,8 @@
 (require 'diminish)
 (require 'bind-key)
 
-;;(setc use-package-verbose t)
-(setc use-package-always-ensure t)
+;;(custom use-package-verbose t)
+(custom use-package-always-ensure t)
 
 ;;; * emacs customize auto generated config
 
@@ -81,12 +81,19 @@
 ;;; this custom-file (i.e. do not load it)
 (setq custom-file "~/.emacs-custom-ignored.el")
 
-(setc custom-safe-themes
-                        '("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223"
-                          "9be1d34d961a40d94ef94d0d08a364c3d27201f3c98c9d38e36f10588469ea57"
-                          default))
+(custom custom-safe-themes
+        '("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223"
+          "9be1d34d961a40d94ef94d0d08a364c3d27201f3c98c9d38e36f10588469ea57"
+          default))
 
 ;;; * packages
+
+(use-package auto-package-update
+  :custom
+  (auto-package-update-delete-old-versions t)
+  (auto-package-update-hide-results t)
+  :config
+  (auto-package-update-maybe))
 
 (use-package base16-theme
   :config
@@ -100,9 +107,10 @@
         evil-visual-state-cursor  `(,(plist-get my/base16-colors :base09) box)))
 
 (use-package evil
+  :custom
+  (evil-echo-state nil)
+  (evil-want-fine-undo t)
   :config
-  (setc evil-echo-state nil)
-  (setc evil-want-fine-undo t)
   (evil-mode t))
 
 (use-package evil-escape
@@ -118,10 +126,21 @@
   :ensure org-plus-contrib
   :pin org
   :mode ("\\.org\\'" . org-mode)
+  :custom
+  (org-log-note-clock-out t)
+  (org-duration-format 'h:mm)
+  (org-pretty-entities t)
   :config
-  (setc org-log-note-clock-out t)
-  (setc org-duration-format 'h:mm)
-  (setc org-pretty-entities t))
+  (use-package ox-latex
+    :custom
+    (org-latex-minted-options '(("breaklines" "true")
+                                ("breakautoindent" "true")
+                                ("breakanywhere" "true")
+                                        ;("breakindentnchars" "2")
+                                ))
+    (org-latex-listings 'minted)
+    (org-latex-pdf-process (mapcar (lambda (command) (replace-regexp-in-string (regexp-quote "%latex ") "%latex -shell-escape " command)) org-latex-pdf-process)))
+  (add-to-list 'org-latex-packages-alist '("newfloat" "minted")))
 
 (use-package writeroom-mode
   :commands writeroom-mode)
@@ -176,27 +195,28 @@
 (use-package js2-mode
   :mode "\\.js\\'"
   :interpreter "node"
-  :config
-  (setc js-indent-level 2)
-  (setc js2-strict-missing-semi-warning nil))
+  :custom
+  (js-indent-level 2)
+  (js2-strict-missing-semi-warning nil))
 
 (use-package rjsx-mode
   :mode "\\.jsx\\'")
 
 (use-package company
- :demand t
- :bind (:map
-        company-active-map
-        ("<return>" . nil)
-        ("RET" . nil)
-        ("<C-return>" . company-complete-selection)
-        ("<tab>" . nil)
-        ("TAB" . nil)
-        ("<C-tab>" . company-complete-common-or-cycle))
- :config
- (setc company-idle-delay 0.1)
- (setc company-minimum-prefix-length 1)
- (global-company-mode))
+  :demand t
+  :bind (:map
+         company-active-map
+         ("<return>" . nil)
+         ("RET" . nil)
+         ("<C-return>" . company-complete-selection)
+         ("<tab>" . nil)
+         ("TAB" . nil)
+         ("<C-tab>" . company-complete-common-or-cycle))
+  :custom
+  (company-idle-delay 0.1)
+  (company-minimum-prefix-length 1)
+  :config
+  (global-company-mode))
 
 (use-package yasnippet
   :config
