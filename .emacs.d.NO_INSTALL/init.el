@@ -110,6 +110,7 @@
   :custom
   (evil-echo-state nil)
   (evil-want-fine-undo t)
+  (evil-want-keybinding nil) ; use evil-collection instead
   :config
   (evil-mode t))
 
@@ -118,8 +119,12 @@
   :config
   (evil-escape-mode))
 
-(use-package aggressive-indent
+(use-package evil-collection
+  :after evil
   :config
+  (evil-collection-init))
+
+(use-package aggressive-indent
   (global-aggressive-indent-mode 1))
 
 (use-package org
