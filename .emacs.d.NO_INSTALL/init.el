@@ -129,17 +129,24 @@
   :custom
   (org-log-note-clock-out t)
   (org-duration-format 'h:mm)
-  (org-pretty-entities t)
+  (org-pretty-entities t))
+
+(use-package ox-latex
+  :ensure nil
+  :after org
+  :custom
+  (org-latex-minted-options '(("breaklines" "true")
+                              ("breakautoindent" "true")
+                              ("breakanywhere" "true")
+                             ;("breakindentnchars" "2")
+                              ))
+  (org-latex-listings 'minted)
   :config
-  (use-package ox-latex
-    :custom
-    (org-latex-minted-options '(("breaklines" "true")
-                                ("breakautoindent" "true")
-                                ("breakanywhere" "true")
-                                        ;("breakindentnchars" "2")
-                                ))
-    (org-latex-listings 'minted)
-    (org-latex-pdf-process (mapcar (lambda (command) (replace-regexp-in-string (regexp-quote "%latex ") "%latex -shell-escape " command)) org-latex-pdf-process)))
+  (custom org-latex-pdf-process (mapcar (lambda (command)
+                                          (replace-regexp-in-string (regexp-quote "%latex ")
+                                                                    "%latex -shell-escape "
+                                                                    command))
+                                        org-latex-pdf-process))
   (add-to-list 'org-latex-packages-alist '("newfloat" "minted")))
 
 (use-package writeroom-mode
