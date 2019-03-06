@@ -205,7 +205,7 @@
   :mode "\\.html?\\'")
 
 (use-package js2-mode
-  :mode "\\.js\\'"
+  :mode "\\.m?js\\'"
   :interpreter "node"
   :custom
   (js-indent-level 2)
