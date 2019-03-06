@@ -121,6 +121,8 @@
 
 (use-package evil-collection
   :after evil
+  :custom
+  (evil-collection-company-use-tng nil)
   :config
   (evil-collection-init))
 
@@ -213,14 +215,6 @@
 
 (use-package company
   :demand t
-  :bind (:map
-         company-active-map
-         ("<return>" . nil)
-         ("RET" . nil)
-         ("<C-return>" . company-complete-selection)
-         ("<tab>" . nil)
-         ("TAB" . nil)
-         ("<C-tab>" . company-complete-common-or-cycle))
   :custom
   (company-idle-delay 0.1)
   (company-minimum-prefix-length 1)
