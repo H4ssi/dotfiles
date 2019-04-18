@@ -37,9 +37,7 @@
 
 ;;; * package.el
 
-(require 'package)
-(custom package-enable-at-startup nil)
-(package-initialize t)
+;; package-initialize happens implicitly before init.el
 
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
@@ -63,13 +61,6 @@
 
 (when (not (package-installed-p 'use-package))
   (package-install 'use-package))
-
-(package-initialize)
-
-(eval-when-compile
-  (require 'use-package))
-(require 'diminish)
-(require 'bind-key)
 
 ;;(custom use-package-verbose t)
 (custom use-package-always-ensure t)
