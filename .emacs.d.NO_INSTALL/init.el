@@ -72,13 +72,18 @@
 ;; an advice is installed for `package-install' to do this once
 ;; when all packages are loaded, advice is removed
 
-(setq my/package-el-refreshed nil)
 (defun my/package-refresh-contents-once-advice (&rest args)
-  (when (not my/package-el-refreshed)
-    (package-refresh-contents)
-    (setq my/package-el-refreshed t)))
+  (package-refresh-contents))
+(defun my/package-refresh-contents-kill-advice (&rest args)
+  (advice-remove 'package-install #'my/package-refresh-contents-once-advice)
+  (advice-remove 'package-refresh-contents #'my/package-refresh-contents-kill-advice))
 
-(advice-add 'package-install :before 'my/package-refresh-contents-once-advice)
+(advice-add 'package-install
+            :before
+            #'my/package-refresh-contents-once-advice)
+(advice-add 'package-refresh-contents
+            :before
+            #'my/package-refresh-contents-kill-advice)
 
 (when (not (package-installed-p 'use-package))
   (package-install 'use-package))
@@ -267,9 +272,5 @@
                                  (cljr-add-keybindings-with-prefix "C-c C-a"))))
 
 ;;; * misc configuration
-
-;;; ** remove package-refresh-contents advice
-
-(advice-remove 'package-install 'my/package-refresh-contents-once-advice)
 
 (add-to-list 'auto-mode-alist '("\\.t\\'" . perl-mode))
