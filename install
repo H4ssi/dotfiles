@@ -5,8 +5,8 @@ set -u
 
 usage () {
     echo -e \
-         "install [-n]"\
-         "\n    -n dry run"\
+         "${BASH_SOURCE[0]} [-n]"\
+         "\\n    -n dry run"\
          >&2
     exit 1
 }
@@ -31,15 +31,18 @@ install="$(dirname "$0")"
 
 pushd "$install" > /dev/null
 
-dotdir="$(basename "$(pwd -L)")"
-
 install_links () {
-    local dot_path=${1}
-    local install_path=${2}
-    local install_base_path=${3}
-    local dot_file=
+    local dot_path
+    dot_path=${1}
+    local install_path
+    install_path=${2}
+    local install_base_path
+    install_base_path=${3}
+    local dot_file
+    dot_file=
     find "$dot_path" -mindepth 1 -maxdepth 1 -printf %f\\0 | while IFS= read -r -d '' dot_file; do
-        local dot_full_path="$dot_path/$dot_file"
+        local dot_full_path
+        dot_full_path="$dot_path/$dot_file"
         case "$dot_file" in
             dconf.sh) ;;
             .git) ;;
@@ -53,8 +56,10 @@ install_links () {
             \#*\#) ;;
             *.NO_INSTALL)
                 # create directories
-                local install_file=${dot_file%.NO_INSTALL}
-                local install_full_path="$install_path/$install_file"
+                local install_file
+                install_file=${dot_file%.NO_INSTALL}
+                local install_full_path
+                install_full_path="$install_path/$install_file"
                 if [[ ! -e $install_full_path ]]; then
                     echo "mkdir     $install_full_path"
                     [[ -n $dry_run ]] || mkdir "$install_full_path"
@@ -67,16 +72,19 @@ install_links () {
                 ;;
             *)
                 # create links
-                local install_file=$dot_file
-                local install_full_path="$install_path/$install_file"
-                local symlink_target="$(realpath -m -s --relative-to="$install_path" "$dot_full_path")"
-                if [[ -L $install_full_path && $(readlink "$install_full_path") == $symlink_target ]]; then
+                local install_file
+                install_file=$dot_file
+                local install_full_path
+                install_full_path="$install_path/$install_file"
+                local symlink_target
+                symlink_target="$(realpath -m -s --relative-to="$install_path" "$dot_full_path")"
+                if [[ -L $install_full_path && $(readlink "$install_full_path") == "$symlink_target" ]]; then
                     echo "          $install_full_path"
                 elif [[ -L $install_full_path && ! -e $install_full_path ]]; then # link without target
                     echo "overwrite $install_full_path -> $symlink_target"
                     [[ -n $dry_run ]] || ln -sf "$symlink_target" "$install_full_path"
                 elif [[ -e $install_full_path ]]; then
-                    if ignore=$(diff "$install_full_path" "$dot_full_path"); then
+                    if cmp -s "$install_full_path" "$dot_full_path"; then
                         [[ -n $dry_run ]] || rm "$install_full_path"
                         [[ -n $dry_run ]] || ln -s "$symlink_target" "$install_full_path"
                         echo "replaced  $install_full_path"
