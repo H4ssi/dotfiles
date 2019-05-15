@@ -7,7 +7,7 @@
       (funcall (find-symbol (string '#:init) (find-package :swank-loader)))
       (funcall (find-symbol (string '#:create-server) (find-package :swank))))))
 
-(run-shell-command "dex -ae XFCE")
+(run-shell-command "dex -a")
 (run-shell-command "compton")
 
 (define-key *root-map* (kbd "c") "exec termite")

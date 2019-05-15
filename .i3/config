@@ -238,7 +238,7 @@ bar {
     }
 }
 exec --no-startup-id xsetroot -solid "$base00"
-exec --no-startup-id dex -ae XFCE
+exec --no-startup-id dex -a
 
 # Basic color configuration using the Base16 variables for windows and borders.
 # Property Name         Border  BG      Text    Indicator Child Border
