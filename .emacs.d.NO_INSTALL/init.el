@@ -43,6 +43,25 @@
 (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 
+;;; ** handling auto saves
+
+(setq backup-directory "~/.emacs-backups")
+(if (not (file-exists-p backup-directory))
+    (mkdir backup-directory t))
+(if (not (and (file-directory-p backup-directory)
+              (file-writable-p backup-directory)))
+    (display-warning 'backup "Backup directory not available" :emergency))
+(custom backup-directory-alist `(("." . ,backup-directory)))
+(custom tramp-backup-directory-alist backup-directory-alist)
+(custom vc-make-backup-files t)
+(custom version-control t)
+(custom kept-old-versions 3)
+(custom kept-new-versions 6)
+(custom delete-old-versions t)
+(defun force-backup-of-buffer ()
+  (setq buffer-backed-up nil))
+(add-hook 'before-save-hook #'force-backup-of-buffer)
+
 ;;; ** use-package
 
 ;; use-package is used to organize this .emacs
