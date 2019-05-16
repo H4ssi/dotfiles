@@ -284,6 +284,11 @@
                                  (clj-refactor-mode 1)
                                  (cljr-add-keybindings-with-prefix "C-c C-a"))))
 
+;;; ** PKGBUILD
+
+(use-package pkgbuild-mode
+  :mode (rx string-start "PKGBUILD" string-end))
+
 ;;; * misc configuration
 
 (add-to-list 'auto-mode-alist '("\\.t\\'" . perl-mode))
