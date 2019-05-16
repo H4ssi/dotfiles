@@ -84,7 +84,10 @@ install_links () {
                     echo "overwrite $install_full_path -> $symlink_target"
                     [[ -n $dry_run ]] || ln -sf "$symlink_target" "$install_full_path"
                 elif [[ -e $install_full_path ]]; then
-                    if cmp -s "$install_full_path" "$dot_full_path"; then
+                    if [[ -f $dot_full_path ]] \
+                       && cmp -s "$install_full_path" "$dot_full_path" \
+                       || [[ -d $dot_full_path ]] \
+                       && diff -rq "$install_full_path" "$dot_full_path"; then
                         [[ -n $dry_run ]] || rm "$install_full_path"
                         [[ -n $dry_run ]] || ln -s "$symlink_target" "$install_full_path"
                         echo "replaced  $install_full_path"
