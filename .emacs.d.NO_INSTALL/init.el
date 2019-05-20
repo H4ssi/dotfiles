@@ -231,17 +231,20 @@
     (add-hook 'smartparens-enabled-hook 'evil-smartparens-mode)))
 
 (use-package web-mode
-  :mode "\\.html?\\'")
+  :mode (rx ".htm" (zero-or-one "l") string-end))
 
 (use-package js2-mode
-  :mode "\\.m?js\\'"
+  :mode (rx "." (zero-or-one "m") "js" string-end)
   :interpreter "node"
   :custom
   (js-indent-level 2)
   (js2-strict-missing-semi-warning nil))
 
+(use-package indium
+  :commands (indium-connect indium-launch))
+
 (use-package rjsx-mode
-  :mode "\\.jsx\\'")
+  :mode (rx ".jsx" string-end))
 
 (use-package company
   :demand t
