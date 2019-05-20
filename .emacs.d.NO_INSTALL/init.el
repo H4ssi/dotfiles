@@ -226,9 +226,7 @@
   :config
   (smartparens-global-mode t)
   (use-package evil-smartparens
-    :commands evil-smartparens-mode
-    :init
-    (add-hook 'smartparens-enabled-hook 'evil-smartparens-mode)))
+    :hook (smartparens-enabled . evil-smartparens-mode)))
 
 (use-package web-mode
   :mode (rx ".htm" (zero-or-one "l") string-end))
@@ -241,7 +239,8 @@
   (js2-strict-missing-semi-warning nil))
 
 (use-package indium
-  :commands (indium-connect indium-launch))
+  :commands (indium-connect indium-launch)
+  :hook (js2-mode . indium-interaction-mode))
 
 (use-package rjsx-mode
   :mode (rx ".jsx" string-end))
@@ -259,9 +258,7 @@
   (yas-global-mode 1))
 
 (use-package rainbow-delimiters
-  :commands rainbow-delimiters-mode
-  :init
-  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+  :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package powerline
   :config
@@ -273,10 +270,8 @@
 (use-package cider
   :pin melpa-stable
   :commands (cider-connect cider-jack-in)
-  :config
-  (add-hook 'cider-mode-hook #'eldoc-mode)
+  :hook (cider-mode . eldoc-mode))
   ;;(setq nrepl-hide-special-buffers t)
-  )
 
 ;; clj-refactor
 (use-package clj-refactor
