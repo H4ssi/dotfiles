@@ -230,6 +230,12 @@
 (use-package evil-smartparens
   :hook (smartparens-enabled . evil-smartparens-mode))
 
+(use-package markdown-mode
+  :mode (((rx "README.md" string-end) . gfm-mode)
+         ((rx ".m" (zero-or-one "ark") "d" (zero-or-one "own") string-end) . markdown-mode))
+  :custom
+  (markdown-command "pandoc"))
+
 (use-package web-mode
   :mode (rx ".htm" (zero-or-one "l") string-end))
 
