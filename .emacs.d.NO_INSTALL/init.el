@@ -224,9 +224,11 @@
          ("C-M-(" . sp-backward-slurp-sexp)
          ("C-M-9" . sp-backward-barf-sexp))
   :config
-  (smartparens-global-mode t)
-  (use-package evil-smartparens
-    :hook (smartparens-enabled . evil-smartparens-mode)))
+  (smartparens-strict-mode t)
+  (smartparens-global-mode t))
+
+(use-package evil-smartparens
+  :hook (smartparens-enabled . evil-smartparens-mode))
 
 (use-package web-mode
   :mode (rx ".htm" (zero-or-one "l") string-end))
