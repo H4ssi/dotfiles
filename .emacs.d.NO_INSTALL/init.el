@@ -63,6 +63,13 @@
 (defun force-backup-of-buffer ()
   (setq buffer-backed-up nil))
 (add-hook 'before-save-hook #'force-backup-of-buffer)
+(custom backup-enable-predicate
+        (lambda (name)
+          (and (not (string-match-p
+                     (rx (or "/dev/shm/pass."
+                             (seq "." (or "pgp"
+                                          "gpg") string-end))) name))
+               (normal-backup-enable-predicate name))))
 
 ;;; ** use-package
 
