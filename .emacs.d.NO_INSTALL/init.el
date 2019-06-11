@@ -155,6 +155,12 @@
   :pin org
   :mode ("\\.org\\'" . org-mode)
   :custom
+  (org-agenda-files '("~/org/"))
+  (org-default-notes-file "~/org/inbox.org")
+  (org-refile-use-outline-path 'file)
+  (org-refile-targets '((org-agenda-files . (:maxlevel . 2))))
+  (org-outline-path-complete-in-steps nil)
+  (org-refile-allow-creating-parent-nodes 'confirm)
   (org-log-note-clock-out t)
   (org-duration-format 'h:mm)
   (org-pretty-entities t))
