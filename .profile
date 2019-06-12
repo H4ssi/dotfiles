@@ -20,6 +20,5 @@ setup_gem_path
 unset -f setup_gem_path
 
 export PATH
-export TERMINAL=termite
 export ALTERNATE_EDITOR=
 export EDITOR=emacsclient

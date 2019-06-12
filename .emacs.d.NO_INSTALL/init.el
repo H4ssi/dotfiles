@@ -122,6 +122,9 @@
   (auto-package-update-maybe))
 
 (use-package base16-theme
+  :custom
+  (base16-distinct-fringe-background nil)
+  (base16-highlight-mode-line 'contrast)
   :config
   (load-theme 'base16-eighties t)
   (defvar my/base16-colors base16-eighties-colors)

@@ -38,7 +38,7 @@ set $right l
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec env WINIT_HIDPI_FACTOR=1.0 alacritty
 
 bindsym XF86MonBrightnessUp nop i3barjs brightness up
 bindsym XF86MonBrightnessDown nop i3barjs brightness down
