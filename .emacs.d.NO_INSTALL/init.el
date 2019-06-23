@@ -250,6 +250,11 @@
   :commands (indium-connect indium-launch)
   :hook (js2-mode . indium-interaction-mode))
 
+(use-package tide
+  :ensure t
+  :hook ((js2-mode . tide-setup)
+         (js2-mode . tide-hl-identifier-mode)))
+
 (use-package rjsx-mode
   :mode (rx ".jsx" string-end))
 
