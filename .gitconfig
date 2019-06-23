@@ -17,6 +17,7 @@
 	smtpserverport = 587
 [alias]
 	diffc = diff --word-diff=color
+	graph = log --all --graph --oneline --decorate
 [credential "https://github.com"]
 	username = H4ssi
 [rerere]
