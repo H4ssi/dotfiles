@@ -152,6 +152,68 @@
   :config
   (evil-collection-init))
 
+(setq my/avy-keys (let ((colemak "arstdhneioqwfpgjluyzxcvbkm"))
+                    (append (string-to-list colemak)
+                            (string-to-list (upcase colemak))
+                            (string-to-list "1234567890"))))
+
+(use-package avy
+  :custom
+  (avy-keys my/avy-keys))
+
+(use-package flyspell
+  :hook
+  (text-mode . flyspell-mode)
+  (prog-mode . flyspell-prog-mode))
+
+(use-package ispell
+  :custom
+  (ispell-program-name (executable-find "hunspell"))
+  (ispell-local-dictionary "en_US"))
+
+(use-package guess-language
+  :custom
+  (guess-language-languages '(en de))
+  (guess-language-langcodes '((en . ("en_US" "English"))
+                              (de . ("de_AT" "German"))))
+  :hook
+  (flyspell-mode . guess-language-mode))
+
+(use-package flyspell-correct
+  :bind (:map flyspell-mode-map
+         ("C-;" . flyspell-correct-wrapper)))
+
+(use-package frog-menu
+  :after
+  flyspell-correct
+  :custom
+  (frog-menu-avy-keys my/avy-keys)
+  :config
+  ; https://github.com/clemera/frog-menu
+  (defun frog-menu-flyspell-correct (candidates word)
+    "Run `frog-menu-read' for the given CANDIDATES.
+
+List of CANDIDATES is given by flyspell for the WORD.
+
+Return selected word to use as a replacement or a tuple
+of (command . word) to be used by `flyspell-do-correct'."
+    (let* ((corrects (if flyspell-sort-corrections
+                         (sort candidates 'string<)
+                       candidates))
+           (actions `(("C-s" "Save word"         (save    . ,word))
+                      ("C-a" "Accept (session)"  (session . ,word))
+                      ("C-b" "Accept (buffer)"   (buffer  . ,word))
+                      ("C-c" "Skip"              (skip    . ,word))))
+           (prompt   (format "Dictionary: [%s]"  (or ispell-local-dictionary
+                                                     ispell-dictionary
+                                                     "default")))
+           (res      (frog-menu-read prompt corrects actions)))
+      (unless res
+        (error "Quit"))
+      res))
+
+  (custom flyspell-correct-interface #'frog-menu-flyspell-correct))
+
 (use-package org
   :ensure org-plus-contrib
   :pin org
